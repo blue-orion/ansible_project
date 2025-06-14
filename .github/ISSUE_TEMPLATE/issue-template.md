@@ -7,8 +7,7 @@ assignees: ''
 
 ---
 
-**무슨 내용의 Issue 인가요?**
-
+(무슨 내용의 Issue인지)
 ---
 **Progress**
 - [ ] (해야 하는 것)
