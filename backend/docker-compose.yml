@@ -10,6 +10,17 @@ services:
     networks:
       - internal
 
+  mariadb:
+    build: mariadb/
+    container_name: mariadb
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - internal
+
+volumes:
+  mariadb_data:
+  
 networks:
   internal:
     driver: bridge

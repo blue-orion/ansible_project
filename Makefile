@@ -12,6 +12,7 @@ down:
 	$(DOCKER_COMPOSE) $(SRCS) down
 
 fclean: down
+	docker volume rm $(shell docker volume ls -q)
 
 re: fclean up
 
