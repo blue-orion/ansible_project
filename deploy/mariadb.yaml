@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:0.0
+          imagePullPolicy: Never
+          envFrom:
+            - secretRef:
+                name: mariadb-secret
+          ports:
+            - name: mariadb
+              containerPort: 3306
+          volumeMounts:
+            - name: mariadb-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mariadb-persistent-storage
+          persistentVolumeClaim:
+            claimName: mariadb-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb
+spec:
+  type: ClusterIP
+  selector:
+    app: mariadb
+  ports:
+    - name: mariadb
+      protocol: TCP
+      port: 3306
+      targetPort: 3306
