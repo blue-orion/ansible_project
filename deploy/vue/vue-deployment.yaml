@@ -1,0 +1,41 @@
+apiVersion: app/v1
+kind: Deployment
+metadata:
+  name: vue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vue
+  template:
+    metadata:
+      labels:
+        app: vue
+    spec:
+      containers:
+      - name: vue
+        image: vue:0.0.1
+        ports:
+          - containerPort: 3007
+        volumeMounts:
+          - name: static-data
+            mountPath: /app/vue_project
+      volumes:
+        - name: static-data
+          hostPath:
+            path: /home/taeho/ansible_project/frontend/vue
+            type: Directory
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: vue-service
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: vue
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3007

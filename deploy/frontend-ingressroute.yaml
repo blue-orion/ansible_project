@@ -5,12 +5,20 @@ metadata:
   name: frontend-ingress
   namespace: default
   annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
     - http:
         paths:
+          - path: /awx
+            pathType: Prefix 
+            backend:
+              service:
+                name: awx-service
+                port:
+                  number: 80
           - path: /
             pathType: Prefix
             backend:
@@ -18,4 +26,3 @@ spec:
                 name: nginx-service
                 port: 
                   number: 80
-
